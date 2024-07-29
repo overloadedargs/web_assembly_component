@@ -8,6 +8,7 @@ use bindings::docs::calculator::{calculate, calculate::Op};
 fn parse_operator(op: &str) -> anyhow::Result<Op> {
     match op {
         "add" => Ok(Op::Add),
+        "subtract" => Ok(Op::Subtract),
         _ => anyhow::bail!("Unknown operation: {}", op),
     }
 }
@@ -16,6 +17,7 @@ impl fmt::Display for Op {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Op::Add => write!(f, "+"),
+            Op::Subtract => write!(f, "-"),
         }
     }
 }
@@ -26,9 +28,9 @@ impl fmt::Display for Op {
 #[clap(name = "calculator", version = env!("CARGO_PKG_VERSION"))]
 struct Command {
     /// The first operand
-    x: u32,
+    x: i32,
     /// The second operand
-    y: u32,
+    y: i32,
     /// Expression operator
     #[clap(value_parser = parse_operator)]
     op: Op,

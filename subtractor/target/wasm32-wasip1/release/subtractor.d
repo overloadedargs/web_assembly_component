@@ -1,0 +1,1 @@
+/Users/cjw/Code/web_assembly_component/subtractor/target/wasm32-wasip1/release/subtractor.wasm: /Users/cjw/Code/web_assembly_component/subtractor/src/bindings.rs /Users/cjw/Code/web_assembly_component/subtractor/src/lib.rs

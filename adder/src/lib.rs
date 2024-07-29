@@ -6,8 +6,8 @@ use bindings::exports::docs::adder::add::Guest;
 struct Component;
 
 impl Guest for Component {
-    fn add(a: u32, b: u32) -> u32 {
-        a + b
+    fn add(a: i32, b: i32) -> i32 {
+        return a + b;
     }
 }
 

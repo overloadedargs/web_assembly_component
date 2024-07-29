@@ -1,0 +1,9 @@
+package docs:subtractor@0.1.0;
+
+interface subtract {
+    subtract: func(a: s32, b: s32) -> s32;
+}
+
+world subtractor {
+    export subtract;
+}

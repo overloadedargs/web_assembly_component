@@ -4,14 +4,15 @@ package docs:calculator@0.1.0;
 interface calculate {
     enum op {
         add,
+        subtract,
     }
-    eval-expression: func(op: op, x: u32, y: u32) -> u32;
+    eval-expression: func(op: op, x: s32, y: s32) -> s32;
 }
 
 world calculator {
     export calculate;
     import docs:adder/add@0.1.0;
-
+    import docs:subtractor/subtract@0.1.0;
 }
 
 world app {

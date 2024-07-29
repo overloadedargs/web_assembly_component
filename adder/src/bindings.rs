@@ -19,11 +19,11 @@ pub mod exports {
                 pub unsafe fn _export_add_cabi<T: Guest>(arg0: i32, arg1: i32) -> i32 {
                     #[cfg(target_arch = "wasm32")]
                     _rt::run_ctors_once();
-                    let result0 = T::add(arg0 as u32, arg1 as u32);
+                    let result0 = T::add(arg0, arg1);
                     _rt::as_i32(result0)
                 }
                 pub trait Guest {
-                    fn add(a: u32, b: u32) -> u32;
+                    fn add(a: i32, b: i32) -> i32;
                 }
                 #[doc(hidden)]
 
@@ -153,7 +153,7 @@ pub(crate) use __export_adder_impl as export;
 #[doc(hidden)]
 pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 203] = *b"\
 \0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07P\x01A\x02\x01A\x02\x01\
-B\x02\x01@\x02\x01ay\x01by\0y\x04\0\x03add\x01\0\x04\x01\x14docs:adder/add@0.1.0\
+B\x02\x01@\x02\x01az\x01bz\0z\x04\0\x03add\x01\0\x04\x01\x14docs:adder/add@0.1.0\
 \x05\0\x04\x01\x16docs:adder/adder@0.1.0\x04\0\x0b\x0b\x01\0\x05adder\x03\0\0\0G\
 \x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.208.1\x10wit-bindgen\
 -rust\x060.25.0";

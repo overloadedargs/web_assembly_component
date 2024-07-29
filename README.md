@@ -1,5 +1,6 @@
-(cd calculator && cargo component build --release)
 (cd adder && cargo component build --release)
+(cd subtractor && cargo component build --release)
+(cd calculator && cargo component build --release)
 (cd command && cargo component build --release)
 
 wac plug calculator/target/wasm32-wasip1/release/calculator.wasm --plug adder/target/wasm32-wasip1/release/adder.wasm -o composed.wasm

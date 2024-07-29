@@ -16,11 +16,13 @@ pub mod docs {
             #[derive(Clone, Copy, Eq, PartialEq)]
             pub enum Op {
                 Add,
+                Subtract,
             }
             impl ::core::fmt::Debug for Op {
                 fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
                     match self {
                         Op::Add => f.debug_tuple("Op::Add").finish(),
+                        Op::Subtract => f.debug_tuple("Op::Subtract").finish(),
                     }
                 }
             }
@@ -34,6 +36,7 @@ pub mod docs {
 
                     match val {
                         0 => Op::Add,
+                        1 => Op::Subtract,
 
                         _ => panic!("invalid enum discriminant"),
                     }
@@ -41,7 +44,7 @@ pub mod docs {
             }
 
             #[allow(unused_unsafe, clippy::all)]
-            pub fn eval_expression(op: Op, x: u32, y: u32) -> u32 {
+            pub fn eval_expression(op: Op, x: i32, y: i32) -> i32 {
                 unsafe {
                     #[cfg(target_arch = "wasm32")]
                     #[link(wasm_import_module = "docs:calculator/calculate@0.1.0")]
@@ -55,7 +58,7 @@ pub mod docs {
                         unreachable!()
                     }
                     let ret = wit_import(op.clone() as i32, _rt::as_i32(&x), _rt::as_i32(&y));
-                    ret as u32
+                    ret
                 }
             }
         }
@@ -137,13 +140,13 @@ mod _rt {
 #[cfg(target_arch = "wasm32")]
 #[link_section = "component-type:wit-bindgen:0.25.0:app:encoded world"]
 #[doc(hidden)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 246] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07}\x01A\x02\x01A\x02\x01\
-B\x04\x01m\x01\x03add\x04\0\x02op\x03\0\0\x01@\x03\x02op\x01\x01xy\x01yy\0y\x04\0\
-\x0feval-expression\x01\x02\x03\x01\x1fdocs:calculator/calculate@0.1.0\x05\0\x04\
-\x01\x19docs:calculator/app@0.1.0\x04\0\x0b\x09\x01\0\x03app\x03\0\0\0G\x09produ\
-cers\x01\x0cprocessed-by\x02\x0dwit-component\x070.208.1\x10wit-bindgen-rust\x06\
-0.25.0";
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 256] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x86\x01\x01A\x02\x01\
+A\x02\x01B\x04\x01m\x02\x03add\x08subtract\x04\0\x02op\x03\0\0\x01@\x03\x02op\x01\
+\x01xz\x01yz\0z\x04\0\x0feval-expression\x01\x02\x03\x01\x1fdocs:calculator/calc\
+ulate@0.1.0\x05\0\x04\x01\x19docs:calculator/app@0.1.0\x04\0\x0b\x09\x01\0\x03ap\
+p\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.208.1\x10\
+wit-bindgen-rust\x060.25.0";
 
 #[inline(never)]
 #[doc(hidden)]
