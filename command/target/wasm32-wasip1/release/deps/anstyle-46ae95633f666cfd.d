@@ -1,0 +1,12 @@
+/Users/cjw/Code/web_assembly_component/command/target/wasm32-wasip1/release/deps/libanstyle-46ae95633f666cfd.rmeta: /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/lib.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/macros.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/color.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/effect.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/reset.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/style.rs
+
+/Users/cjw/Code/web_assembly_component/command/target/wasm32-wasip1/release/deps/libanstyle-46ae95633f666cfd.rlib: /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/lib.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/macros.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/color.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/effect.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/reset.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/style.rs
+
+/Users/cjw/Code/web_assembly_component/command/target/wasm32-wasip1/release/deps/anstyle-46ae95633f666cfd.d: /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/lib.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/macros.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/color.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/effect.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/reset.rs /Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/style.rs
+
+/Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/lib.rs:
+/Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/macros.rs:
+/Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/color.rs:
+/Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/effect.rs:
+/Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/reset.rs:
+/Users/cjw/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-1.0.8/src/style.rs:

@@ -1,0 +1,1 @@
+/Users/cjw/Code/web_assembly_component/calculator/target/wasm32-wasip1/release/calculator.wasm: /Users/cjw/Code/web_assembly_component/calculator/src/bindings.rs /Users/cjw/Code/web_assembly_component/calculator/src/lib.rs

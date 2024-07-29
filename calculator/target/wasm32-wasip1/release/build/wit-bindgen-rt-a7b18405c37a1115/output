@@ -1,0 +1,2 @@
+cargo:rustc-link-lib=wit_bindgen_cabi_realloc0_28_0
+cargo:rustc-link-search=native=/Users/cjw/Code/web_assembly_component/calculator/target/wasm32-wasip1/release/build/wit-bindgen-rt-a7b18405c37a1115/out

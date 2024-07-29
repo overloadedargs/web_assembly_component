@@ -1,0 +1,1 @@
+/Users/cjw/Code/web_assembly_component/adder/target/wasm32-wasip1/release/adder.wasm: /Users/cjw/Code/web_assembly_component/adder/src/bindings.rs /Users/cjw/Code/web_assembly_component/adder/src/lib.rs
