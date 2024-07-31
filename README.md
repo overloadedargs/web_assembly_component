@@ -12,3 +12,5 @@ wasm-tools compose command/target/wasm32-wasip1/release/command.wasm -d composed
 
 wasmtime run final.wasm 1 2 add
 wasmtime run final.wasm 1 2 subtract
+
+could add wac script

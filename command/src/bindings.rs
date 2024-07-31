@@ -17,12 +17,14 @@ pub mod docs {
             pub enum Op {
                 Add,
                 Subtract,
+                InterestRate,
             }
             impl ::core::fmt::Debug for Op {
                 fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
                     match self {
                         Op::Add => f.debug_tuple("Op::Add").finish(),
                         Op::Subtract => f.debug_tuple("Op::Subtract").finish(),
+                        Op::InterestRate => f.debug_tuple("Op::InterestRate").finish(),
                     }
                 }
             }
@@ -37,6 +39,7 @@ pub mod docs {
                     match val {
                         0 => Op::Add,
                         1 => Op::Subtract,
+                        2 => Op::InterestRate,
 
                         _ => panic!("invalid enum discriminant"),
                     }
@@ -58,6 +61,51 @@ pub mod docs {
                         unreachable!()
                     }
                     let ret = wit_import(op.clone() as i32, _rt::as_i32(&x), _rt::as_i32(&y));
+                    ret
+                }
+            }
+            #[allow(unused_unsafe, clippy::all)]
+            pub fn eval_expression_three_args(op: Op, x: f32, y: u32, z: u32) -> f32 {
+                unsafe {
+                    #[cfg(target_arch = "wasm32")]
+                    #[link(wasm_import_module = "docs:calculator/calculate@0.1.0")]
+                    extern "C" {
+                        #[link_name = "eval-expression-three-args"]
+                        fn wit_import(_: i32, _: f32, _: i32, _: i32) -> f32;
+                    }
+
+                    #[cfg(not(target_arch = "wasm32"))]
+                    fn wit_import(_: i32, _: f32, _: i32, _: i32) -> f32 {
+                        unreachable!()
+                    }
+                    let ret = wit_import(
+                        op.clone() as i32,
+                        _rt::as_f32(&x),
+                        _rt::as_i32(&y),
+                        _rt::as_i32(&z),
+                    );
+                    ret
+                }
+            }
+            #[allow(unused_unsafe, clippy::all)]
+            pub fn total_payable(rate: f32, amount: u32, years: u32) -> f32 {
+                unsafe {
+                    #[cfg(target_arch = "wasm32")]
+                    #[link(wasm_import_module = "docs:calculator/calculate@0.1.0")]
+                    extern "C" {
+                        #[link_name = "total-payable"]
+                        fn wit_import(_: f32, _: i32, _: i32) -> f32;
+                    }
+
+                    #[cfg(not(target_arch = "wasm32"))]
+                    fn wit_import(_: f32, _: i32, _: i32) -> f32 {
+                        unreachable!()
+                    }
+                    let ret = wit_import(
+                        _rt::as_f32(&rate),
+                        _rt::as_i32(&amount),
+                        _rt::as_i32(&years),
+                    );
                     ret
                 }
             }
@@ -135,18 +183,41 @@ mod _rt {
             self as i32
         }
     }
+
+    pub fn as_f32<T: AsF32>(t: T) -> f32 {
+        t.as_f32()
+    }
+
+    pub trait AsF32 {
+        fn as_f32(self) -> f32;
+    }
+
+    impl<'a, T: Copy + AsF32> AsF32 for &'a T {
+        fn as_f32(self) -> f32 {
+            (*self).as_f32()
+        }
+    }
+
+    impl AsF32 for f32 {
+        #[inline]
+        fn as_f32(self) -> f32 {
+            self as f32
+        }
+    }
 }
 
 #[cfg(target_arch = "wasm32")]
 #[link_section = "component-type:wit-bindgen:0.25.0:app:encoded world"]
 #[doc(hidden)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 256] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x86\x01\x01A\x02\x01\
-A\x02\x01B\x04\x01m\x02\x03add\x08subtract\x04\0\x02op\x03\0\0\x01@\x03\x02op\x01\
-\x01xz\x01yz\0z\x04\0\x0feval-expression\x01\x02\x03\x01\x1fdocs:calculator/calc\
-ulate@0.1.0\x05\0\x04\x01\x19docs:calculator/app@0.1.0\x04\0\x0b\x09\x01\0\x03ap\
-p\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.208.1\x10\
-wit-bindgen-rust\x060.25.0";
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 363] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xf1\x01\x01A\x02\x01\
+A\x02\x01B\x08\x01m\x03\x03add\x08subtract\x0dinterest-rate\x04\0\x02op\x03\0\0\x01\
+@\x03\x02op\x01\x01xz\x01yz\0z\x04\0\x0feval-expression\x01\x02\x01@\x04\x02op\x01\
+\x01xv\x01yy\x01zy\0v\x04\0\x1aeval-expression-three-args\x01\x03\x01@\x03\x04ra\
+tev\x06amounty\x05yearsy\0v\x04\0\x0dtotal-payable\x01\x04\x03\x01\x1fdocs:calcu\
+lator/calculate@0.1.0\x05\0\x04\x01\x19docs:calculator/app@0.1.0\x04\0\x0b\x09\x01\
+\0\x03app\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.\
+208.1\x10wit-bindgen-rust\x060.25.0";
 
 #[inline(never)]
 #[doc(hidden)]

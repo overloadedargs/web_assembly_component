@@ -9,6 +9,7 @@ fn parse_operator(op: &str) -> anyhow::Result<Op> {
     match op {
         "add" => Ok(Op::Add),
         "subtract" => Ok(Op::Subtract),
+        "interest_rate" => Ok(Op::InterestRate),
         _ => anyhow::bail!("Unknown operation: {}", op),
     }
 }
@@ -18,6 +19,7 @@ impl fmt::Display for Op {
         match self {
             Op::Add => write!(f, "+"),
             Op::Subtract => write!(f, "-"),
+            Op::InterestRate => write!(f, "InterestRate")
         }
     }
 }
@@ -26,23 +28,36 @@ impl fmt::Display for Op {
 /// using WebAssembly
 #[derive(Parser)]
 #[clap(name = "calculator", version = env!("CARGO_PKG_VERSION"))]
-struct Command {
-    /// The first operand
-    x: i32,
-    /// The second operand
-    y: i32,
+struct Args {
     /// Expression operator
     #[clap(value_parser = parse_operator)]
     op: Op,
+    /// The first operand
+    x: f32,
+    /// The second operand
+    y: f32,
+    /// The third operand
+    z: Option<f32>,
 }
 
-impl Command {
-    fn run(self) {
-        let res = calculate::eval_expression(self.op, self.x, self.y);
-        println!("{} {} {} = {res}", self.x, self.op, self.y);
-    }
-}
+// #[derive(Subcommand)]
+// enum Commands {
+//     /// does testing things
+//     Test {
+//         /// lists test values
+//         #[arg(short, long)]
+//         list: bool,
+//     },
+// }   
 
 fn main() {
-    Command::parse().run()
+    let cli = Args::parse();
+    // You can check the value provided by positional arguments, or option arguments
+    if let Some(z) = cli.z {
+        let res = calculate::eval_expression_three_args(cli.op, cli.x, cli.y as u32, z as u32);
+        println!("{} {} {} {} = {res}", cli.x, cli.op, cli.y, z);
+    } else {
+        let res = calculate::eval_expression(cli.op, cli.x as i32, cli.y as i32);
+        println!("{} {} {} = {res}", cli.x, cli.op, cli.y);
+    }
 }

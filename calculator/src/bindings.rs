@@ -82,12 +82,14 @@ pub mod exports {
                 pub enum Op {
                     Add,
                     Subtract,
+                    InterestRate,
                 }
                 impl ::core::fmt::Debug for Op {
                     fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
                         match self {
                             Op::Add => f.debug_tuple("Op::Add").finish(),
                             Op::Subtract => f.debug_tuple("Op::Subtract").finish(),
+                            Op::InterestRate => f.debug_tuple("Op::InterestRate").finish(),
                         }
                     }
                 }
@@ -102,6 +104,7 @@ pub mod exports {
                         match val {
                             0 => Op::Add,
                             1 => Op::Subtract,
+                            2 => Op::InterestRate,
 
                             _ => panic!("invalid enum discriminant"),
                         }
@@ -120,20 +123,60 @@ pub mod exports {
                     let result0 = T::eval_expression(Op::_lift(arg0 as u8), arg1, arg2);
                     _rt::as_i32(result0)
                 }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_eval_expression_three_args_cabi<T: Guest>(
+                    arg0: i32,
+                    arg1: f32,
+                    arg2: i32,
+                    arg3: i32,
+                ) -> f32 {
+                    #[cfg(target_arch = "wasm32")]
+                    _rt::run_ctors_once();
+                    let result0 = T::eval_expression_three_args(
+                        Op::_lift(arg0 as u8),
+                        arg1,
+                        arg2 as u32,
+                        arg3 as u32,
+                    );
+                    _rt::as_f32(result0)
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_total_payable_cabi<T: Guest>(
+                    arg0: f32,
+                    arg1: i32,
+                    arg2: i32,
+                ) -> f32 {
+                    #[cfg(target_arch = "wasm32")]
+                    _rt::run_ctors_once();
+                    let result0 = T::total_payable(arg0, arg1 as u32, arg2 as u32);
+                    _rt::as_f32(result0)
+                }
                 pub trait Guest {
                     fn eval_expression(op: Op, x: i32, y: i32) -> i32;
+                    fn eval_expression_three_args(op: Op, x: f32, y: u32, z: u32) -> f32;
+                    fn total_payable(rate: f32, amount: u32, years: u32) -> f32;
                 }
                 #[doc(hidden)]
 
                 macro_rules! __export_docs_calculator_calculate_0_1_0_cabi{
-        ($ty:ident with_types_in $($path_to_types:tt)*) => (const _: () = {
+    ($ty:ident with_types_in $($path_to_types:tt)*) => (const _: () = {
 
-          #[export_name = "docs:calculator/calculate@0.1.0#eval-expression"]
-          unsafe extern "C" fn export_eval_expression(arg0: i32,arg1: i32,arg2: i32,) -> i32 {
-            $($path_to_types)*::_export_eval_expression_cabi::<$ty>(arg0, arg1, arg2)
-          }
-        };);
+      #[export_name = "docs:calculator/calculate@0.1.0#eval-expression"]
+      unsafe extern "C" fn export_eval_expression(arg0: i32,arg1: i32,arg2: i32,) -> i32 {
+        $($path_to_types)*::_export_eval_expression_cabi::<$ty>(arg0, arg1, arg2)
       }
+      #[export_name = "docs:calculator/calculate@0.1.0#eval-expression-three-args"]
+      unsafe extern "C" fn export_eval_expression_three_args(arg0: i32,arg1: f32,arg2: i32,arg3: i32,) -> f32 {
+        $($path_to_types)*::_export_eval_expression_three_args_cabi::<$ty>(arg0, arg1, arg2, arg3)
+      }
+      #[export_name = "docs:calculator/calculate@0.1.0#total-payable"]
+      unsafe extern "C" fn export_total_payable(arg0: f32,arg1: i32,arg2: i32,) -> f32 {
+        $($path_to_types)*::_export_total_payable_cabi::<$ty>(arg0, arg1, arg2)
+      }
+    };);
+  }
                 #[doc(hidden)]
                 pub(crate) use __export_docs_calculator_calculate_0_1_0_cabi;
             }
@@ -216,6 +259,27 @@ mod _rt {
     pub fn run_ctors_once() {
         wit_bindgen_rt::run_ctors_once();
     }
+
+    pub fn as_f32<T: AsF32>(t: T) -> f32 {
+        t.as_f32()
+    }
+
+    pub trait AsF32 {
+        fn as_f32(self) -> f32;
+    }
+
+    impl<'a, T: Copy + AsF32> AsF32 for &'a T {
+        fn as_f32(self) -> f32 {
+            (*self).as_f32()
+        }
+    }
+
+    impl AsF32 for f32 {
+        #[inline]
+        fn as_f32(self) -> f32 {
+            self as f32
+        }
+    }
 }
 
 /// Generates `#[no_mangle]` functions to export the specified type as the
@@ -249,15 +313,18 @@ pub(crate) use __export_calculator_impl as export;
 #[cfg(target_arch = "wasm32")]
 #[link_section = "component-type:wit-bindgen:0.25.0:calculator:encoded world"]
 #[doc(hidden)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 379] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xfa\x01\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 486] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xe5\x02\x01A\x02\x01\
 A\x06\x01B\x02\x01@\x02\x01az\x01bz\0z\x04\0\x03add\x01\0\x03\x01\x14docs:adder/\
 add@0.1.0\x05\0\x01B\x02\x01@\x02\x01az\x01bz\0z\x04\0\x08subtract\x01\0\x03\x01\
-\x1edocs:subtractor/subtract@0.1.0\x05\x01\x01B\x04\x01m\x02\x03add\x08subtract\x04\
-\0\x02op\x03\0\0\x01@\x03\x02op\x01\x01xz\x01yz\0z\x04\0\x0feval-expression\x01\x02\
-\x04\x01\x1fdocs:calculator/calculate@0.1.0\x05\x02\x04\x01\x20docs:calculator/c\
-alculator@0.1.0\x04\0\x0b\x10\x01\0\x0acalculator\x03\0\0\0G\x09producers\x01\x0c\
-processed-by\x02\x0dwit-component\x070.208.1\x10wit-bindgen-rust\x060.25.0";
+\x1edocs:subtractor/subtract@0.1.0\x05\x01\x01B\x08\x01m\x03\x03add\x08subtract\x0d\
+interest-rate\x04\0\x02op\x03\0\0\x01@\x03\x02op\x01\x01xz\x01yz\0z\x04\0\x0feva\
+l-expression\x01\x02\x01@\x04\x02op\x01\x01xv\x01yy\x01zy\0v\x04\0\x1aeval-expre\
+ssion-three-args\x01\x03\x01@\x03\x04ratev\x06amounty\x05yearsy\0v\x04\0\x0dtota\
+l-payable\x01\x04\x04\x01\x1fdocs:calculator/calculate@0.1.0\x05\x02\x04\x01\x20\
+docs:calculator/calculator@0.1.0\x04\0\x0b\x10\x01\0\x0acalculator\x03\0\0\0G\x09\
+producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.208.1\x10wit-bindgen-rus\
+t\x060.25.0";
 
 #[inline(never)]
 #[doc(hidden)]
