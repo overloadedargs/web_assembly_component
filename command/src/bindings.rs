@@ -47,20 +47,20 @@ pub mod docs {
             }
 
             #[allow(unused_unsafe, clippy::all)]
-            pub fn eval_expression(op: Op, x: i32, y: i32) -> i32 {
+            pub fn eval_expression(op: Op, x: f32, y: f32) -> f32 {
                 unsafe {
                     #[cfg(target_arch = "wasm32")]
                     #[link(wasm_import_module = "docs:calculator/calculate@0.1.0")]
                     extern "C" {
                         #[link_name = "eval-expression"]
-                        fn wit_import(_: i32, _: i32, _: i32) -> i32;
+                        fn wit_import(_: i32, _: f32, _: f32) -> f32;
                     }
 
                     #[cfg(not(target_arch = "wasm32"))]
-                    fn wit_import(_: i32, _: i32, _: i32) -> i32 {
+                    fn wit_import(_: i32, _: f32, _: f32) -> f32 {
                         unreachable!()
                     }
-                    let ret = wit_import(op.clone() as i32, _rt::as_i32(&x), _rt::as_i32(&y));
+                    let ret = wit_import(op.clone() as i32, _rt::as_f32(&x), _rt::as_f32(&y));
                     ret
                 }
             }
@@ -113,6 +113,27 @@ pub mod docs {
     }
 }
 mod _rt {
+
+    pub fn as_f32<T: AsF32>(t: T) -> f32 {
+        t.as_f32()
+    }
+
+    pub trait AsF32 {
+        fn as_f32(self) -> f32;
+    }
+
+    impl<'a, T: Copy + AsF32> AsF32 for &'a T {
+        fn as_f32(self) -> f32 {
+            (*self).as_f32()
+        }
+    }
+
+    impl AsF32 for f32 {
+        #[inline]
+        fn as_f32(self) -> f32 {
+            self as f32
+        }
+    }
 
     pub fn as_i32<T: AsI32>(t: T) -> i32 {
         t.as_i32()
@@ -183,27 +204,6 @@ mod _rt {
             self as i32
         }
     }
-
-    pub fn as_f32<T: AsF32>(t: T) -> f32 {
-        t.as_f32()
-    }
-
-    pub trait AsF32 {
-        fn as_f32(self) -> f32;
-    }
-
-    impl<'a, T: Copy + AsF32> AsF32 for &'a T {
-        fn as_f32(self) -> f32 {
-            (*self).as_f32()
-        }
-    }
-
-    impl AsF32 for f32 {
-        #[inline]
-        fn as_f32(self) -> f32 {
-            self as f32
-        }
-    }
 }
 
 #[cfg(target_arch = "wasm32")]
@@ -212,7 +212,7 @@ mod _rt {
 pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 363] = *b"\
 \0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xf1\x01\x01A\x02\x01\
 A\x02\x01B\x08\x01m\x03\x03add\x08subtract\x0dinterest-rate\x04\0\x02op\x03\0\0\x01\
-@\x03\x02op\x01\x01xz\x01yz\0z\x04\0\x0feval-expression\x01\x02\x01@\x04\x02op\x01\
+@\x03\x02op\x01\x01xv\x01yv\0v\x04\0\x0feval-expression\x01\x02\x01@\x04\x02op\x01\
 \x01xv\x01yy\x01zy\0v\x04\0\x1aeval-expression-three-args\x01\x03\x01@\x03\x04ra\
 tev\x06amounty\x05yearsy\0v\x04\0\x0dtotal-payable\x01\x04\x03\x01\x1fdocs:calcu\
 lator/calculate@0.1.0\x05\0\x04\x01\x19docs:calculator/app@0.1.0\x04\0\x0b\x09\x01\

@@ -7,7 +7,7 @@ interface calculate {
         subtract,
         interest-rate,
     }
-    eval-expression: func(op: op, x: s32, y: s32) -> s32;
+    eval-expression: func(op: op, x: f32, y: f32) -> f32;
     eval-expression-three-args: func(op: op, x: f32, y: u32, z: u32) -> f32;
     total-payable: func(rate: f32, amount: u32, years: u32) -> f32;
 }

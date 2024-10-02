@@ -58,7 +58,7 @@ fn main() {
         println!("{}", res);
         println!("{} {} {} {} = {res}", cli.x, cli.op, cli.y, z);
     } else {
-        let res = calculate::eval_expression(cli.op, cli.x as i32, cli.y as i32);
+        let res = calculate::eval_expression(cli.op, cli.x as f32, cli.y as f32);
         println!("{} {} {} = {res}", cli.x, cli.op, cli.y);
     }
 }

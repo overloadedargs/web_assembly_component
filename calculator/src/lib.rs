@@ -11,11 +11,11 @@ struct Component;
 
 impl Guest for Component {
 
-    fn eval_expression(op: Op, x: i32, y: i32) -> i32 {
+    fn eval_expression(op: Op, x: f32, y: f32) -> f32 {
         match op {
             Op::Add => add(x, y),
             Op::Subtract => subtract(x, y),
-            Op::InterestRate => 0.0 as i32 // throw error  
+            Op::InterestRate => 0.0 as f32 // throw error  
         }
     }
 
@@ -54,7 +54,7 @@ impl Guest for Component {
         let interest_rate = rate as f32 / 12.0;
         let payments = years as f32 * 12.0;
 
-        let mut to_repay = (full_amount / (((1.0 + interest_rate).powf(payments) - 1.0) / (interest_rate * (1.0 + interest_rate).powf(payments))));
+        let mut to_repay = full_amount / ((subtract((add(1.0, interest_rate) as f32).powf(payments), 1.0)) / (interest_rate * add(1.0, interest_rate).powf(payments)));
   
         return to_repay as f32;
       }

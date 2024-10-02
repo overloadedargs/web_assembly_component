@@ -6,7 +6,7 @@ use bindings::exports::docs::subtractor::subtract::Guest;
 struct Component;
 
 impl Guest for Component {
-    fn subtract(a: i32, b: i32) -> i32 {
+    fn subtract(a: f32, b: f32) -> f32 {
         return a - b;
     }
 }

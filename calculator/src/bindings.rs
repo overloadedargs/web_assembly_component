@@ -13,20 +13,20 @@ pub mod docs {
                 super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[allow(unused_unsafe, clippy::all)]
-            pub fn add(a: i32, b: i32) -> i32 {
+            pub fn add(a: f32, b: f32) -> f32 {
                 unsafe {
                     #[cfg(target_arch = "wasm32")]
                     #[link(wasm_import_module = "docs:adder/add@0.1.0")]
                     extern "C" {
                         #[link_name = "add"]
-                        fn wit_import(_: i32, _: i32) -> i32;
+                        fn wit_import(_: f32, _: f32) -> f32;
                     }
 
                     #[cfg(not(target_arch = "wasm32"))]
-                    fn wit_import(_: i32, _: i32) -> i32 {
+                    fn wit_import(_: f32, _: f32) -> f32 {
                         unreachable!()
                     }
-                    let ret = wit_import(_rt::as_i32(&a), _rt::as_i32(&b));
+                    let ret = wit_import(_rt::as_f32(&a), _rt::as_f32(&b));
                     ret
                 }
             }
@@ -43,20 +43,20 @@ pub mod docs {
                 super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[allow(unused_unsafe, clippy::all)]
-            pub fn subtract(a: i32, b: i32) -> i32 {
+            pub fn subtract(a: f32, b: f32) -> f32 {
                 unsafe {
                     #[cfg(target_arch = "wasm32")]
                     #[link(wasm_import_module = "docs:subtractor/subtract@0.1.0")]
                     extern "C" {
                         #[link_name = "subtract"]
-                        fn wit_import(_: i32, _: i32) -> i32;
+                        fn wit_import(_: f32, _: f32) -> f32;
                     }
 
                     #[cfg(not(target_arch = "wasm32"))]
-                    fn wit_import(_: i32, _: i32) -> i32 {
+                    fn wit_import(_: f32, _: f32) -> f32 {
                         unreachable!()
                     }
-                    let ret = wit_import(_rt::as_i32(&a), _rt::as_i32(&b));
+                    let ret = wit_import(_rt::as_f32(&a), _rt::as_f32(&b));
                     ret
                 }
             }
@@ -115,13 +115,13 @@ pub mod exports {
                 #[allow(non_snake_case)]
                 pub unsafe fn _export_eval_expression_cabi<T: Guest>(
                     arg0: i32,
-                    arg1: i32,
-                    arg2: i32,
-                ) -> i32 {
+                    arg1: f32,
+                    arg2: f32,
+                ) -> f32 {
                     #[cfg(target_arch = "wasm32")]
                     _rt::run_ctors_once();
                     let result0 = T::eval_expression(Op::_lift(arg0 as u8), arg1, arg2);
-                    _rt::as_i32(result0)
+                    _rt::as_f32(result0)
                 }
                 #[doc(hidden)]
                 #[allow(non_snake_case)]
@@ -154,7 +154,7 @@ pub mod exports {
                     _rt::as_f32(result0)
                 }
                 pub trait Guest {
-                    fn eval_expression(op: Op, x: i32, y: i32) -> i32;
+                    fn eval_expression(op: Op, x: f32, y: f32) -> f32;
                     fn eval_expression_three_args(op: Op, x: f32, y: u32, z: u32) -> f32;
                     fn total_payable(rate: f32, amount: u32, years: u32) -> f32;
                 }
@@ -164,7 +164,7 @@ pub mod exports {
     ($ty:ident with_types_in $($path_to_types:tt)*) => (const _: () = {
 
       #[export_name = "docs:calculator/calculate@0.1.0#eval-expression"]
-      unsafe extern "C" fn export_eval_expression(arg0: i32,arg1: i32,arg2: i32,) -> i32 {
+      unsafe extern "C" fn export_eval_expression(arg0: i32,arg1: f32,arg2: f32,) -> f32 {
         $($path_to_types)*::_export_eval_expression_cabi::<$ty>(arg0, arg1, arg2)
       }
       #[export_name = "docs:calculator/calculate@0.1.0#eval-expression-three-args"]
@@ -185,81 +185,6 @@ pub mod exports {
 }
 mod _rt {
 
-    pub fn as_i32<T: AsI32>(t: T) -> i32 {
-        t.as_i32()
-    }
-
-    pub trait AsI32 {
-        fn as_i32(self) -> i32;
-    }
-
-    impl<'a, T: Copy + AsI32> AsI32 for &'a T {
-        fn as_i32(self) -> i32 {
-            (*self).as_i32()
-        }
-    }
-
-    impl AsI32 for i32 {
-        #[inline]
-        fn as_i32(self) -> i32 {
-            self as i32
-        }
-    }
-
-    impl AsI32 for u32 {
-        #[inline]
-        fn as_i32(self) -> i32 {
-            self as i32
-        }
-    }
-
-    impl AsI32 for i16 {
-        #[inline]
-        fn as_i32(self) -> i32 {
-            self as i32
-        }
-    }
-
-    impl AsI32 for u16 {
-        #[inline]
-        fn as_i32(self) -> i32 {
-            self as i32
-        }
-    }
-
-    impl AsI32 for i8 {
-        #[inline]
-        fn as_i32(self) -> i32 {
-            self as i32
-        }
-    }
-
-    impl AsI32 for u8 {
-        #[inline]
-        fn as_i32(self) -> i32 {
-            self as i32
-        }
-    }
-
-    impl AsI32 for char {
-        #[inline]
-        fn as_i32(self) -> i32 {
-            self as i32
-        }
-    }
-
-    impl AsI32 for usize {
-        #[inline]
-        fn as_i32(self) -> i32 {
-            self as i32
-        }
-    }
-
-    #[cfg(target_arch = "wasm32")]
-    pub fn run_ctors_once() {
-        wit_bindgen_rt::run_ctors_once();
-    }
-
     pub fn as_f32<T: AsF32>(t: T) -> f32 {
         t.as_f32()
     }
@@ -279,6 +204,11 @@ mod _rt {
         fn as_f32(self) -> f32 {
             self as f32
         }
+    }
+
+    #[cfg(target_arch = "wasm32")]
+    pub fn run_ctors_once() {
+        wit_bindgen_rt::run_ctors_once();
     }
 }
 
@@ -315,10 +245,10 @@ pub(crate) use __export_calculator_impl as export;
 #[doc(hidden)]
 pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 486] = *b"\
 \0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xe5\x02\x01A\x02\x01\
-A\x06\x01B\x02\x01@\x02\x01az\x01bz\0z\x04\0\x03add\x01\0\x03\x01\x14docs:adder/\
-add@0.1.0\x05\0\x01B\x02\x01@\x02\x01az\x01bz\0z\x04\0\x08subtract\x01\0\x03\x01\
+A\x06\x01B\x02\x01@\x02\x01av\x01bv\0v\x04\0\x03add\x01\0\x03\x01\x14docs:adder/\
+add@0.1.0\x05\0\x01B\x02\x01@\x02\x01av\x01bv\0v\x04\0\x08subtract\x01\0\x03\x01\
 \x1edocs:subtractor/subtract@0.1.0\x05\x01\x01B\x08\x01m\x03\x03add\x08subtract\x0d\
-interest-rate\x04\0\x02op\x03\0\0\x01@\x03\x02op\x01\x01xz\x01yz\0z\x04\0\x0feva\
+interest-rate\x04\0\x02op\x03\0\0\x01@\x03\x02op\x01\x01xv\x01yv\0v\x04\0\x0feva\
 l-expression\x01\x02\x01@\x04\x02op\x01\x01xv\x01yy\x01zy\0v\x04\0\x1aeval-expre\
 ssion-three-args\x01\x03\x01@\x03\x04ratev\x06amounty\x05yearsy\0v\x04\0\x0dtota\
 l-payable\x01\x04\x04\x01\x1fdocs:calculator/calculate@0.1.0\x05\x02\x04\x01\x20\
