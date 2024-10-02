@@ -4,15 +4,18 @@ This repository demonstrates the latest steps for compiling multiple web assembl
 
 ## Building
 
-```(cd adder && cargo component build --release) (cd subtractor && cargo component build --release) (cd calculator && cargo component build --release) (cd command && cargo component build --release)```
-
-Or run build script as `sh ./build.sh`
+`(cd adder && cargo component build --release)`
+`(cd subtractor && cargo component build --release)`
+`(cd calculator && cargo component build --release)`
+`(cd command && cargo component build --release)`
 
 ## Composing
 
 `wac plug calculator/target/wasm32-wasip1/release/calculator.wasm --plug adder/target/wasm32-wasip1/release/adder.wasm --plug subtractor/target/wasm32-wasip1/release/subtractor.wasm -o composed.wasm`
 
 `wac plug command/target/wasm32-wasip1/release/command.wasm --plug composed.wasm -o final.wasm`
+
+Or run build script as `sh ./build.sh`
 
 Could also add wac compile script like `wac compose -t input.wac`
 
