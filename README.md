@@ -1,5 +1,7 @@
 ### Web Assembly Component
 
+This repository demonstrates the latest steps for compiling multiple web assembly components to be used on the command line. It was originally going to include a web server as well.
+
 ## Building
 `(cd adder && cargo component build --release)`
 
