@@ -1,1 +1,2 @@
 .fingerprint
+command/target/wasm32-wasip1/release/deps/*

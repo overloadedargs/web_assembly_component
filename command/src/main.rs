@@ -55,6 +55,7 @@ fn main() {
     // You can check the value provided by positional arguments, or option arguments
     if let Some(z) = cli.z {
         let res = calculate::eval_expression_three_args(cli.op, cli.x, cli.y as u32, z as u32);
+        println!("{}", res);
         println!("{} {} {} {} = {res}", cli.x, cli.op, cli.y, z);
     } else {
         let res = calculate::eval_expression(cli.op, cli.x as i32, cli.y as i32);

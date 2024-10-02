@@ -4,13 +4,9 @@ This repository demonstrates the latest steps for compiling multiple web assembl
 
 ## Building
 
-`(cd adder && cargo component build --release)`
+```(cd adder && cargo component build --release) (cd subtractor && cargo component build --release) (cd calculator && cargo component build --release) (cd command && cargo component build --release)```
 
-`(cd subtractor && cargo component build --release)`
-
-`(cd calculator && cargo component build --release)`
-
-`(cd command && cargo component build --release)`
+Or run build script as `sh ./build.sh`
 
 ## Composing
 
@@ -35,3 +31,7 @@ The [Wac Language](https://github.com/bytecodealliance/wac) is a superset of [Wi
 `wasm-tools compose calculator/target/wasm32-wasip1/release/calculator.wasm -d adder/target/wasm32-wasip1/release/adder.wasm -o composed.wasm`
 
 `wasm-tools compose command/target/wasm32-wasip1/release/command.wasm -d composed.wasm -o final.wasm`
+
+## Example 
+
+`wasmtime run final.wasm interest_rate 0.06 10000 5` = Monthly payment of 193.32817 for 5 years
