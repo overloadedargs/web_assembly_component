@@ -17,9 +17,9 @@
 ## Running
 `wasmtime run final.wasm interest_rate 1 2 3`
 
-`wasmtime run final.wasm 1 2 add`
+`wasmtime run final.wasm add 1 2`
 
-`wasmtime run final.wasm 1 2 subtract`
+`wasmtime run final.wasm subtract 1 2 subtract`
 
 could add wac compile script
 
