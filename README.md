@@ -20,7 +20,7 @@ This repository demonstrates the latest steps for compiling multiple web assembl
 
 Could also add wac compile script like `wac compose -t input.wac`
 
-The [Wac Language](https://github.com/bytecodealliance/wac) is a superset of [Wit](Wit/Wasm Interface Type).
+The [Wac Language](https://github.com/bytecodealliance/wac) is a superset of [Wit/Wasm Interface Type](https://component-model.bytecodealliance.org/design/wit.html).
 
 ## Running
 
