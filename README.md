@@ -32,7 +32,7 @@ The [Wac Language](https://github.com/bytecodealliance/wac) is a superset of [Wi
 
 `wasmtime run final.wasm subtract 1 2 subtract`
 
-## Deprecated compose
+# Deprecated compose
 
 `wasm-tools compose calculator/target/wasm32-wasip1/release/calculator.wasm -d adder/target/wasm32-wasip1/release/adder.wasm -o composed.wasm`
 
