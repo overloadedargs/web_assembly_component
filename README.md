@@ -30,7 +30,7 @@ The [Wac Language](https://github.com/bytecodealliance/wac) is a superset of [Wi
 
 `wasmtime run final.wasm add 1 2`
 
-`wasmtime run final.wasm subtract 1 2 subtract`
+`wasmtime run final.wasm subtract 1 2`
 
 ### Deprecated compose
 
